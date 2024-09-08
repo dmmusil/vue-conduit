@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Darts.Server", "Darts.Server\Darts.Server.csproj", "{FEE16550-AC5B-458F-A387-60BA21E9FBB3}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "darts.client", "darts.client\darts.client.esproj", "{270137BD-1934-4B90-BE00-80394E754522}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FEE16550-AC5B-458F-A387-60BA21E9FBB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEE16550-AC5B-458F-A387-60BA21E9FBB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEE16550-AC5B-458F-A387-60BA21E9FBB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEE16550-AC5B-458F-A387-60BA21E9FBB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{270137BD-1934-4B90-BE00-80394E754522}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{270137BD-1934-4B90-BE00-80394E754522}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{270137BD-1934-4B90-BE00-80394E754522}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{270137BD-1934-4B90-BE00-80394E754522}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{270137BD-1934-4B90-BE00-80394E754522}.Release|Any CPU.Build.0 = Release|Any CPU
+		{270137BD-1934-4B90-BE00-80394E754522}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0465FB6A-434E-40B8-80AC-7B1FB3BB34A0}
+	EndGlobalSection
+EndGlobal
