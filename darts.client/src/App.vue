@@ -8,7 +8,18 @@ import TheWelcome from './components/TheWelcome.vue'
     <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <Suspense>
+        <template #fallback>
+          <div class="loading">
+            <p>
+              Loading... Please refresh once the ASP.NET backend has started. See <a
+                href="https://aka.ms/jspsintegrationvue">https://aka.ms/jspsintegrationvue</a> for more details.
+            </p>
+          </div>
+        </template>
+
+        <HelloWorld />
+      </Suspense>
     </div>
   </header>
 
