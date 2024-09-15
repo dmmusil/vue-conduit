@@ -1,3 +1,4 @@
+using HealthChecks.NpgSql;
 using Microsoft.EntityFrameworkCore;
 
 namespace Darts.Server
@@ -8,19 +9,24 @@ namespace Darts.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            var connectionString = builder.Configuration["DATABASE_URL"] ??
+                                   throw new ArgumentException(
+                                       "DATABASE_URL not defined in configuration");
+            connectionString = UrlToConnectionString.Convert(connectionString);
+
+            
             // Add services to the container.
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
-            var connectionString = builder.Configuration["DATABASE_URL"] ??
-                                   throw new ArgumentException(
-                                       "DATABASE_URL not defined in configuration");
+            builder.Services.AddHealthChecks()
+                .AddNpgSql(new NpgSqlHealthCheckOptions(connectionString));
+            
             builder.Services.AddDbContext<UsersDbContext>(options =>
             {
-                options.UseNpgsql(UrlToConnectionString.Convert(connectionString));
+                options.UseNpgsql(connectionString);
             });
 
             var app = builder.Build();
@@ -41,6 +47,7 @@ namespace Darts.Server
 
 
             app.MapControllers();
+            app.MapHealthChecks("healthz");
 
             app.MapFallbackToFile("/index.html");
 
