@@ -23,9 +23,15 @@
         </tbody>
       </table>
     </div>
-    
+
     <div>
-      <p>{{health}}</p>
+      <template v-if="!health">
+        <p>Checking...</p>
+      </template>
+      <template v-else>
+        <p>Overall status: {{ health?.status }}</p>
+        <p>npgsql: {{ health.results.npgsql.status}}</p>
+      </template>
       <button @click="fetchHealth">Check</button>
     </div>
   </div>
@@ -41,17 +47,30 @@ type Forecasts = {
   summary: string
 }[];
 
+type ServiceHealth = {
+  status: string
+}
+
+type HealthResult = {
+  npgsql: ServiceHealth
+}
+
+type HealthSummary = {
+  status: string,
+  results: HealthResult
+}
+
 const post = ref<Forecasts | null>(null);
-const health = ref<string>("Checking...");
+const health = ref<HealthSummary | null>(null);
 const requests = [fetchWeatherData(), fetchHealth()];
 
 await Promise.all(requests)
 
 async function fetchHealth() {
-  health.value = "Checking..."
+  health.value = null
   const response = await fetch('healthz');
   await new Promise(resolve => setTimeout(resolve, 500))
-  health.value = await response.text()
+  health.value = await response.json()
 }
 
 async function fetchWeatherData(): Promise<void> {
