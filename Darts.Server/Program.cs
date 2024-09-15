@@ -1,6 +1,7 @@
 using HealthChecks.NpgSql;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Darts.Server
@@ -25,6 +26,9 @@ namespace Darts.Server
             builder.Services.AddSwaggerGen();
             builder.Services.AddHealthChecks()
                 .AddNpgSql(new NpgSqlHealthCheckOptions(connectionString));
+
+            builder.Services.AddScoped<IUserStore<User>, UserOnlyStore<User, UsersDbContext>>();
+            builder.Services.AddIdentityCore<User>();
             builder.Services.AddAuthentication();
             
             builder.Services.AddDbContext<UsersDbContext>(options =>
