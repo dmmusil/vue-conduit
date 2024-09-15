@@ -43,7 +43,6 @@ await fetchData();
 async function fetchData(): Promise<void> {
   post.value = null;
   const response = await fetch('weatherforecast')
-  await new Promise(resolve => setTimeout(resolve, 3000));
   const json = await response.json();
   post.value = json as Forecasts;
 }
