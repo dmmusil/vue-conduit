@@ -6,28 +6,33 @@
     <div v-if="post" class="content">
       <table>
         <thead>
-          <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-          </tr>
+        <tr>
+          <th>Date</th>
+          <th>Temp. (C)</th>
+          <th>Temp. (F)</th>
+          <th>Summary</th>
+        </tr>
         </thead>
         <tbody>
-          <tr v-for="forecast in post" :key="forecast.date">
-            <td>{{ forecast.date }}</td>
-            <td>{{ forecast.temperatureC }}</td>
-            <td>{{ forecast.temperatureF }}</td>
-            <td>{{ forecast.summary }}</td>
-          </tr>
+        <tr v-for="forecast in post" :key="forecast.date">
+          <td>{{ forecast.date }}</td>
+          <td>{{ forecast.temperatureC }}</td>
+          <td>{{ forecast.temperatureF }}</td>
+          <td>{{ forecast.summary }}</td>
+        </tr>
         </tbody>
       </table>
+    </div>
+    
+    <div>
+      <p>{{health}}</p>
+      <button @click="fetchHealth">Check</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 type Forecasts = {
   date: string,
@@ -37,10 +42,19 @@ type Forecasts = {
 }[];
 
 const post = ref<Forecasts | null>(null);
+const health = ref<string>("Checking...");
+const requests = [fetchWeatherData(), fetchHealth()];
 
-await fetchData();
+await Promise.all(requests)
 
-async function fetchData(): Promise<void> {
+async function fetchHealth() {
+  health.value = "Checking..."
+  const response = await fetch('healthz');
+  await new Promise(resolve => setTimeout(resolve, 500))
+  health.value = await response.text()
+}
+
+async function fetchWeatherData(): Promise<void> {
   post.value = null;
   const response = await fetch('weatherforecast')
   const json = await response.json();
