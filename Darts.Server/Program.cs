@@ -1,5 +1,6 @@
 using HealthChecks.NpgSql;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Darts.Server
@@ -24,6 +25,7 @@ namespace Darts.Server
             builder.Services.AddSwaggerGen();
             builder.Services.AddHealthChecks()
                 .AddNpgSql(new NpgSqlHealthCheckOptions(connectionString));
+            builder.Services.AddAuthentication();
             
             builder.Services.AddDbContext<UsersDbContext>(options =>
             {
@@ -67,6 +69,11 @@ namespace Darts.Server
         }
     }
 
+    public class User : IdentityUser
+    {
+        
+    }
+    
     public class UsersDbContext : DbContext
     {
         protected UsersDbContext()
@@ -76,5 +83,7 @@ namespace Darts.Server
         public UsersDbContext(DbContextOptions options) : base(options)
         {
         }
+        
+        public DbSet<User> Users { get; set; }
     }
 }
