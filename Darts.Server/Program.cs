@@ -1,4 +1,5 @@
 using HealthChecks.NpgSql;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 
 namespace Darts.Server
@@ -47,7 +48,9 @@ namespace Darts.Server
 
 
             app.MapControllers();
-            app.MapHealthChecks("healthz");
+            app.MapHealthChecks("healthz",
+                new HealthCheckOptions
+                    { ResponseWriter = HealthChecks.WriteResponse });
 
             app.MapFallbackToFile("/index.html");
 
