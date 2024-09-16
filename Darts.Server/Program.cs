@@ -1,3 +1,4 @@
+using Darts.Server.Features.Users;
 using HealthChecks.NpgSql;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
@@ -73,21 +74,5 @@ namespace Darts.Server
         }
     }
 
-    public class User : IdentityUser
-    {
-        
-    }
-    
-    public class UsersDbContext : DbContext
-    {
-        protected UsersDbContext()
-        {
-        }
 
-        public UsersDbContext(DbContextOptions options) : base(options)
-        {
-        }
-        
-        public DbSet<User> Users { get; set; }
-    }
 }

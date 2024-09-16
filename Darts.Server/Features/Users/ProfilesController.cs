@@ -1,26 +1,28 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Darts.Server.Features.Users;
 
 [ApiController]
 [Route("api/profiles")]
-public class ProfilesController(UserManager<User> userManager) : ControllerBase
+public class ProfilesController(UsersDbContext dbContext) : ControllerBase
 {
     [HttpGet("{username}")]
     public async Task<ActionResult<ProfileResponse>> Get(string username)
     {
-        var user =
-            await userManager.Users.FirstOrDefaultAsync(u =>
-                u.UserName == username);
+        var user = await dbContext.Users
+            .Where(u => u.UserName == username)
+            .Select(u => new { u.UserName, u.Profile.Bio, u.Profile.Image })
+            .FirstOrDefaultAsync();
+        
         if (user == null)
         {
             return NotFound();
         }
 
         return new ProfileResponse(
-            new ProfileResponseBody(user.UserName!, null, null, false));
+            new ProfileResponseBody(user.UserName!, user.Bio,
+                user.Image, false));
     }
 }
 
